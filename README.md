@@ -96,7 +96,8 @@ Estes pontos foram preenchidos com valores de trabalho e precisam ser confirmado
 
 - **Dados de contato** (`theme/grupoformar/config.ts`) — e-mail, telefone e WhatsApp.
 - **Sites das três marcas** (`theme/grupoformar/config.ts`, `brands`) — hoje apontam para
-  caminhos presumidos em `grupoformar.com.br`; os links do rodapé dependem deles.
+  caminhos presumidos em `grupoformar.com.br`; os links da barra de topo (`TopBar.vue`) e da
+  faixa "Marcas do grupo" no rodapé dependem deles.
 - **Indicadores e specs** (`src/domain/theme/content.ts`) — "25 anos", "+2.000 títulos",
   formato de folha, número de cores, marcos da linha do tempo.
 - **Endpoint do formulário** (`VITE_CONTACT_API_ROUTE`) — sem ele o envio sempre falha.

@@ -36,7 +36,7 @@ watch(() => route.fullPath, () => {
         <img
           :src="logoGrupoFormar"
           :alt="labels.BRAND.name"
-          class="logo-adaptive h-8 w-auto md:h-9"
+          class="logo-adaptive h-[38px] w-auto md:h-[43px]"
           width="1001"
           height="402"
         >

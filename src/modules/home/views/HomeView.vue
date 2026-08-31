@@ -21,7 +21,7 @@ const { hero, sustentabilidade, logoFsc, unitAssets } = useBrandAssets();
   <div>
     <Hero :image="hero" eyebrow="Tradição & Inovação" size="full">
       <h1 class="text-4xl font-extrabold leading-[1.03] tracking-[-0.03em] text-white md:text-6xl lg:text-[70px]">
-        25 anos formando<br>
+        26 anos formando<br>
         conhecimento em
         <span class="bg-gradient-to-r from-[#7fd8ff] to-cyan bg-clip-text text-transparent">
           papel,<br>tinta e tecnologia.

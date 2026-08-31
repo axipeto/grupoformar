@@ -178,6 +178,8 @@ app.mount('#app');
 
 ### Componentes de shell
 
+**`TopBar.vue`** — barra de serviço fina (36px, `bg-navy-soft`) acima do cabeçalho, com atalhos para os sites das outras marcas do grupo. Fica no `DefaultLayout`, **fora** do `PageHeader`: rola junto com a página e some, deixando só o cabeçalho fixo no topo. Os endereços vêm de `config.brands`.
+
 **`PageHeader.vue`** — logo + nav real (`/`, `/unidades`, `/sobre`) + `ThemeToggle` + CTA "Fale conosco" + menu hambúrguer no mobile. O filete do gradiente da marca (`<BrandRule />`) fica no topo, acima da barra.
 
 **`PageFooter.vue`** — quatro colunas (marca, navegação, institucional, contato), depois a faixa **"Marcas do grupo"** com os três logotipos linkando para os sites de cada empresa, e a linha de copyright. Os endereços vêm de `theme/grupoformar/config.ts` (`brands`).
@@ -369,7 +371,7 @@ Pontos que costumam gerar dúvida:
 O layout e a estrutura estão fechados; **estes dados foram preenchidos com valores de trabalho** e precisam ser confirmados com o cliente antes de publicar:
 
 - **`theme/grupoformar/config.ts`** — e-mail, telefone e WhatsApp; e os três endereços em `brands`, que alimentam os links da faixa "Marcas do grupo" no rodapé.
-- **`src/domain/theme/content.ts`** — os 4 indicadores ("25 anos", "3 unidades", "+2.000 títulos", "FSC"), as specs do parque gráfico (formato de folha, número de cores, tipos de acabamento) e os marcos da linha do tempo (2000, 2015).
+- **`src/domain/theme/content.ts`** — os 4 indicadores ("26 anos", "3 unidades", "+2.000 títulos", "FSC"), as specs do parque gráfico (formato de folha, número de cores, tipos de acabamento) e os marcos da linha do tempo (2000, 2015).
 - **Fotos das unidades** — hoje as três unidades usam fotos genéricas de operação gráfica. A Carvalho Distribuições, em particular, está ilustrada com uma foto de maquinário de impressão, que não representa logística.
 
 ### Decisão de escopo registrada

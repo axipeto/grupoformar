@@ -46,7 +46,7 @@ export interface EsgPoint {
 }
 
 export const stats: Stat[] = [
-  { value: '25', label: 'anos de operação contínua' },
+  { value: '26', label: 'anos de operação contínua' },
   { value: '3', label: 'unidades de negócio integradas' },
   { value: '+2.000', label: 'títulos publicados e impressos' },
   { value: 'FSC', label: 'manejo florestal certificado' },
