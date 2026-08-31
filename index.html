@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png" />
+    <title>Grupo Formar — Editora, produção gráfica e distribuição</title>
+    <meta
+      name="description"
+      content="O Grupo Formar reúne Editora Formar, Mar Produções Gráficas e Carvalho Distribuições: editar, imprimir e distribuir sob a mesma gestão."
+    />
+    <meta name="theme-color" content="#286db9" />
+    <meta property="og:title" content="Grupo Formar" />
+    <meta
+      property="og:description"
+      content="Editora, produção gráfica e distribuição sob a mesma gestão."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.grupoformar.com.br/" />
+    <!-- og:image precisa ser URL absoluta: crawlers que não executam JS leem só este HTML,
+         e caminho relativo não resolve para eles. O useSeo() sobrescreve por rota. -->
+    <meta property="og:image" content="https://www.grupoformar.com.br/og-default.jpg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <script>
+      // anti-FOUC: aplica o tema salvo antes do app montar
+      (function () {
+        try {
+          var s = localStorage.getItem('grupoformar-theme') || 'system';
+          var dark = s === 'dark' || (s === 'system' && matchMedia('(prefers-color-scheme: dark)').matches);
+          document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+        } catch (e) {}
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

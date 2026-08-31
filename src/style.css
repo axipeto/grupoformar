@@ -1,0 +1,141 @@
+@import 'tailwindcss';
+
+/* dark mode por atributo em <html data-theme="dark"> */
+@custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
+
+:root {
+  /* superfícies/texto — TEMA CLARO (padrão) */
+  --bg: 0 0% 100%;             /* branco */
+  --surface: 0 0% 100%;
+  --surface-alt: 213 33% 96%;  /* #f2f5f9 — cinza com viés frio, puxado do azul */
+  --text: 213 19% 10%;         /* #14181e */
+  --text-muted: 213 15% 35%;   /* #4d5866 */
+  --border: 213 27% 90%;       /* #dfe5ee */
+  --border-strong: 213 24% 82%;/* #c6d0dd */
+
+  /* escala de cinza */
+  --gray-100: 213 33% 97%;
+  --gray-200: 213 27% 92%;
+  --gray-300: 213 24% 85%;
+  --gray-400: 213 14% 65%;
+  --gray-500: 213 13% 52%;
+  --gray-600: 213 19% 22%;
+
+  /* status */
+  --red: 3 78% 61%;      --red-light: 12 86% 94%;
+  --orange: 37 100% 47%; --orange-light: 42 100% 90%;
+  --green: 152 60% 38%;  --green-light: 150 45% 92%;
+}
+
+[data-theme='dark'] {
+  --bg: 213 40% 9%;            /* #0d1520 */
+  --surface: 213 39% 13%;      /* #14202f */
+  --surface-alt: 213 41% 11%;  /* #111c2a */
+  --text: 213 47% 95%;         /* #eaf0f8 */
+  --text-muted: 213 22% 72%;   /* #a8b7c9 */
+  --border: 213 37% 21%;       /* #22334a */
+  --border-strong: 213 35% 28%;/* #2f4460 */
+
+  --gray-100: 213 39% 15%;
+  --gray-200: 213 37% 21%;
+  --gray-300: 213 35% 28%;
+  --gray-400: 213 20% 55%;
+  --gray-500: 213 22% 68%;
+  --gray-600: 213 47% 95%;
+}
+
+@theme {
+  /* Archivo (display/UI) e Hanken Grotesk (corpo) — self-hosted via @fontsource,
+     escolhidas por conversarem com o grotesco geométrico do logotipo. */
+  --font-sans: 'Hanken Grotesk', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  --font-display: 'Archivo', 'Hanken Grotesk', system-ui, sans-serif;
+
+  /* marca (as --gf-* são injetadas em :root pelo applyThemeVariables) */
+  --color-violet: hsl(var(--gf-violet));
+  --color-blue: hsl(var(--gf-blue));
+  --color-blue-dark: hsl(var(--gf-blue-dark));
+  --color-cyan: hsl(var(--gf-cyan));
+  --color-cyan-dark: hsl(var(--gf-cyan-dark));
+  --color-navy: hsl(var(--gf-navy));
+  --color-navy-soft: hsl(var(--gf-navy-soft));
+  --color-ink: hsl(var(--gf-ink));
+
+  /* semânticos de superfície (trocam entre claro/escuro) */
+  --color-bg: hsl(var(--bg));
+  --color-surface: hsl(var(--surface));
+  --color-surface-alt: hsl(var(--surface-alt));
+  --color-text: hsl(var(--text));
+  --color-text-muted: hsl(var(--text-muted));
+  --color-border: hsl(var(--border));
+  --color-border-strong: hsl(var(--border-strong));
+
+  /* grays */
+  --color-gray-100: hsl(var(--gray-100));
+  --color-gray-200: hsl(var(--gray-200));
+  --color-gray-300: hsl(var(--gray-300));
+  --color-gray-400: hsl(var(--gray-400));
+  --color-gray-500: hsl(var(--gray-500));
+  --color-gray-600: hsl(var(--gray-600));
+
+  /* status */
+  --color-red: hsl(var(--red));       --color-red-light: hsl(var(--red-light));
+  --color-orange: hsl(var(--orange)); --color-orange-light: hsl(var(--orange-light));
+  --color-green: hsl(var(--green));   --color-green-light: hsl(var(--green-light));
+
+  /* z-index */
+  --z-index-base: 0; --z-index-dropdown: 1000; --z-index-sticky: 1020;
+  --z-index-fixed: 1030; --z-index-backdrop: 1040; --z-index-modal: 1050;
+  --z-index-toaster: 1060; --z-index-tooltip: 1070; --z-index-max: 9999;
+
+  /* shadows — tinta azulada, coerentes com a paleta */
+  --shadow-01: 0 1px 2px 0 rgb(20 40 70 / 0.05);
+  --shadow-02: 0 4px 8px -2px rgb(20 40 70 / 0.08);
+  --shadow-03: 0 12px 32px -18px rgb(20 40 70 / 0.30);
+  --shadow-04: 0 16px 32px -12px rgb(20 40 70 / 0.18);
+  --shadow-05: 0 24px 48px -16px rgb(20 40 70 / 0.22);
+
+  /* breakpoint extra */
+  --breakpoint-xxl: 86.25rem;
+}
+
+@layer base {
+  html, body, #app { @apply h-full w-full antialiased scroll-smooth; }
+
+  body { @apply bg-bg text-text font-sans; }
+
+  h1, h2, h3, h4 { @apply font-display tracking-tight text-balance; }
+
+  .container-max { @apply w-full max-w-[1180px] mx-auto px-6 lg:px-10; }
+
+  /*
+   * Assinatura da marca: o gradiente do logotipo (violeta → azul → ciano) aparece
+   * como filete fino, nunca como fundo chapado de seção.
+   */
+  .brand-rule {
+    background-image: linear-gradient(
+      90deg,
+      hsl(var(--gf-violet)) 0%,
+      hsl(var(--gf-blue)) 52%,
+      hsl(var(--gf-cyan)) 100%
+    );
+  }
+
+  /* fundo de seção escura institucional */
+  .section-dark { @apply bg-navy text-white; }
+
+  /*
+   * Os logotipos das marcas são pretos com símbolo em gradiente: ilegíveis sobre
+   * fundo escuro. `.logo-adaptive` inverte para branco sólido só no tema escuro;
+   * `.logo-invert` é fixo, para logos que estão sempre sobre fundo escuro (rodapé).
+   */
+  .logo-invert { filter: brightness(0) invert(1); }
+  [data-theme='dark'] .logo-adaptive { filter: brightness(0) invert(1); }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.001ms !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
