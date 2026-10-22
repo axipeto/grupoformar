@@ -1,6 +1,6 @@
 import { useHead } from '@unhead/vue';
-import { Variables } from '@/domain/theme/entities/variables';
 import { config } from '@/domain/theme/config';
+import { Variables } from '@/domain/theme/entities/variables';
 import { labels } from '@/domain/theme/labels';
 
 const SITE_URL = Variables.get('VITE_SITE_URL', 'https://www.grupoformar.com.br');

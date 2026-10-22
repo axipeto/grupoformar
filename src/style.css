@@ -136,21 +136,45 @@
    * CSS, e não inline no elemento: assim o bloco entra já no estado certo, sem
    * o flash de conteúdo posicionado que apareceria se o JS aplicasse o
    * deslocamento depois da primeira pintura.
+   *
+   * A entrada é `animation`, não `transition`: um card com `transition-colors`
+   * (utility, camada acima desta) sobrescreveria a `transition` daqui e o bloco
+   * apareceria de uma vez. Pelo mesmo motivo o atraso da diretiva vai em
+   * `animation-delay` — em `transition-delay` ele atrasaria também o hover.
+   * `backwards` segura o estado inicial durante o atraso e, no fim, devolve o
+   * elemento aos próprios estilos (hover de opacidade continua funcionando).
    */
-  .reveal {
-    opacity: 0;
-    transition:
-      opacity 0.7s cubic-bezier(0.22, 0.61, 0.36, 1),
-      transform 0.7s cubic-bezier(0.22, 0.61, 0.36, 1);
-  }
-  .reveal--up { transform: translateY(24px); }
-  .reveal--left { transform: translateX(-28px); }
-  .reveal--right { transform: translateX(28px); }
-  .reveal--fade { transform: none; }
+  /* atraso por elemento vem inline da diretiva; o padrão zera para não herdar de um `.reveal` ancestral */
+  .reveal { --reveal-delay: 0ms; }
+  .reveal:not(.is-in) { opacity: 0; }
+  .reveal--up { --reveal-from: translateY(24px); }
+  .reveal--left { --reveal-from: translateX(-28px); }
+  .reveal--right { --reveal-from: translateX(28px); }
+  .reveal--fade { --reveal-from: none; }
+  .reveal--zoom { --reveal-from: scale(0.96); }
 
   .reveal.is-in {
-    opacity: 1;
-    transform: none;
+    animation: reveal-in 0.7s cubic-bezier(0.22, 0.61, 0.36, 1) var(--reveal-delay) backwards;
+  }
+
+  /*
+   * Imagem que "assenta" junto com o bloco revelado: entra 6% ampliada e volta ao
+   * tamanho real, mais devagar que o bloco e com o mesmo atraso dele. O contêiner
+   * da imagem precisa de `overflow-hidden` para a sobra não invadir o resto do card.
+   */
+  .reveal.is-in .reveal-media {
+    animation: reveal-media 1.4s cubic-bezier(0.22, 0.61, 0.36, 1) var(--reveal-delay) backwards;
+  }
+
+  @keyframes reveal-in {
+    from {
+      opacity: 0;
+      transform: var(--reveal-from, none);
+    }
+  }
+
+  @keyframes reveal-media {
+    from { transform: scale(1.06); }
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -160,11 +184,10 @@
       scroll-behavior: auto !important;
     }
 
-    /* o conteúdo precisa estar visível mesmo sem a transição que o revelaria */
-    .reveal {
+    /* o conteúdo precisa estar visível mesmo sem a animação que o revelaria */
+    .reveal, .reveal .reveal-media {
       opacity: 1 !important;
-      transform: none !important;
-      transition-delay: 0ms !important;
+      animation: none !important;
     }
   }
 }

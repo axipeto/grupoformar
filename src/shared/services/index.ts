@@ -2,6 +2,7 @@ import type { App } from 'vue';
 import { createHead } from '@unhead/vue/client'; // @unhead/vue v2: createHead vem do subpath /client
 import { createPinia } from 'pinia';
 import { registerGlobalComponents } from '@/globalComponents';
+import { vCountUp } from '@/shared/directives/countUp';
 import { vReveal } from '@/shared/directives/reveal';
 import { safeHtml } from '@/shared/directives/safeHtml';
 import router from '@/shared/router';
@@ -13,6 +14,7 @@ export function initServices(app: App) {
   app.use(createHead());
   app.directive('safe-html', safeHtml);
   app.directive('reveal', vReveal);
+  app.directive('count-up', vCountUp);
   registerGlobalComponents(app);
   initClarity();
 }

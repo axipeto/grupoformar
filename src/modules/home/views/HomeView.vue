@@ -129,7 +129,7 @@ const { hero, sustentabilidade, logoFsc, unitAssets } = useBrandAssets();
         </div>
 
         <div
-          v-reveal.right
+          v-reveal.zoom="esgPoints.length * 90"
           class="flex flex-col items-center gap-3.5 rounded-xl border border-white/20 bg-white/5 p-8 text-center"
         >
           <img
@@ -146,7 +146,7 @@ const { hero, sustentabilidade, logoFsc, unitAssets } = useBrandAssets();
     </section>
 
     <Section tone="alt">
-      <div v-reveal class="overflow-hidden rounded-xl border border-border bg-surface shadow-03">
+      <div v-reveal.zoom class="overflow-hidden rounded-xl border border-border bg-surface shadow-03">
         <span aria-hidden="true" class="block h-[3px] w-full brand-rule" />
         <div class="grid items-center gap-9 p-9 md:p-12 lg:grid-cols-[1.3fr_0.7fr] lg:p-16">
           <div class="flex flex-col gap-3">

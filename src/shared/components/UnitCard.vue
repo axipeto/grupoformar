@@ -26,7 +26,7 @@ const props = withDefaults(defineProps<Props>(), { flip: false, logoClass: 'h-11
       <img
         :src="props.logo"
         :alt="props.name"
-        :class="['logo-adaptive w-auto', props.logoClass]"
+        class="logo-adaptive w-auto" :class="[props.logoClass]"
         loading="lazy"
       >
       <p class="max-w-[54ch] text-text-muted">
@@ -45,13 +45,14 @@ const props = withDefaults(defineProps<Props>(), { flip: false, logoClass: 'h-11
     </div>
 
     <div
-      class="relative order-first min-h-[220px] bg-surface-alt lg:min-h-[300px]"
+      class="relative order-first min-h-[220px] overflow-hidden bg-surface-alt lg:min-h-[300px]"
       :class="props.flip ? 'lg:order-1' : 'lg:order-none'"
     >
+      <!-- `.reveal-media`: com `v-reveal` no card, a foto assenta enquanto ele aparece -->
       <img
         :src="props.image"
         :alt="props.imageAlt"
-        class="absolute inset-0 h-full w-full object-cover"
+        class="reveal-media absolute inset-0 h-full w-full object-cover"
         loading="lazy"
       >
     </div>
