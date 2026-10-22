@@ -14,7 +14,7 @@ const channels = [
 <template>
   <Section>
     <div class="grid gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:gap-20">
-      <div class="flex flex-col gap-6">
+      <div v-reveal class="flex flex-col gap-6">
         <Eyebrow>Vamos conversar</Eyebrow>
         <h1 class="text-3xl font-bold text-text md:text-4xl lg:text-[44px] lg:leading-[1.1]">
           Conte seu projeto — nós cuidamos do resto.
@@ -44,7 +44,7 @@ const channels = [
         </ul>
       </div>
 
-      <div class="overflow-hidden rounded-xl border border-border bg-surface shadow-03">
+      <div v-reveal.right class="overflow-hidden rounded-xl border border-border bg-surface shadow-03">
         <span aria-hidden="true" class="block h-[3px] w-full brand-rule" />
         <div class="p-7 md:p-10">
           <ContactForm />

@@ -61,7 +61,7 @@ export const units: Unit[] = [
       + 'autores e pesquisadores em todas as etapas — seleção, revisão, projeto editorial e '
       + 'registro — para que o conteúdo chegue ao leitor com rigor.',
     tags: ['Curadoria', 'Revisão', 'ISBN & catalogação', 'Projeto editorial'],
-    imageAlt: 'Impressão em quatro cores saindo da máquina',
+    imageAlt: 'Crianças segurando livros das coleções da Editora Formar',
   },
   {
     key: 'mar',

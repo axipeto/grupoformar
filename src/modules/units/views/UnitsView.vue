@@ -29,6 +29,7 @@ const { hero, maquinario, unitAssets } = useBrandAssets();
         <UnitCard
           v-for="(unit, i) in units"
           :key="unit.key"
+          v-reveal="i * 80"
           :name="unit.name"
           :logo="unitAssets(unit.key).logo"
           :logo-class="unitAssets(unit.key).logoClass"
@@ -51,6 +52,7 @@ const { hero, maquinario, unitAssets } = useBrandAssets();
       <div class="grid items-center gap-9 lg:grid-cols-2 lg:gap-16">
         <div class="flex flex-col items-start gap-5">
           <SectionHeading
+            v-reveal
             eyebrow="Parque gráfico"
             title="Capacidade instalada para tirar o projeto do papel."
             description="Investimos continuamente em maquinário para manter a produção dentro de casa. Isso significa controle de qualidade em cada folha e prazos que não dependem de terceiros."
@@ -58,8 +60,9 @@ const { hero, maquinario, unitAssets } = useBrandAssets();
           />
           <ul class="mt-1.5 flex w-full flex-col">
             <li
-              v-for="spec in parkSpecs"
+              v-for="(spec, i) in parkSpecs"
               :key="spec.label"
+              v-reveal.left="i * 70"
               class="flex items-baseline justify-between gap-5 border-b border-white/15 py-3.5 text-[15px] text-white/70"
             >
               <span>{{ spec.label }}</span>
@@ -73,7 +76,7 @@ const { hero, maquinario, unitAssets } = useBrandAssets();
           </Button>
         </div>
 
-        <figure class="m-0 aspect-[4/3] overflow-hidden rounded-xl border border-white/15">
+        <figure v-reveal.right class="m-0 aspect-[4/3] overflow-hidden rounded-xl border border-white/15">
           <img
             :src="maquinario"
             alt="Conjunto de impressoras offset instaladas no parque gráfico"
