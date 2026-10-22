@@ -7,7 +7,11 @@ import type { Directive, DirectiveBinding } from 'vue';
  *   v-reveal               → sobe 24px e aparece
  *   v-reveal.fade          → só aparece, sem deslocamento
  *   v-reveal.left/.right   → desliza na horizontal
+ *   v-reveal.zoom          → cresce de 96% para 100% e aparece (cards e blocos de destaque)
  *   v-reveal="120"         → mesma coisa, com 120ms de atraso (para escalonar listas)
+ *
+ * Uma imagem com a classe `.reveal-media` dentro do elemento revelado "assenta":
+ * entra levemente ampliada e volta ao tamanho real junto com a revelação.
  *
  * Um único IntersectionObserver atende a página inteira — um observer por
  * elemento seria desperdício numa home com dezenas de blocos. Cada elemento é
@@ -15,7 +19,7 @@ import type { Directive, DirectiveBinding } from 'vue';
  * passagem de scroll.
  */
 
-const VARIANTS = ['fade', 'left', 'right', 'up'] as const;
+const VARIANTS = ['fade', 'left', 'right', 'zoom', 'up'] as const;
 type Variant = typeof VARIANTS[number];
 
 let observer: IntersectionObserver | null = null;
@@ -28,8 +32,11 @@ function prefersReducedMotion(): boolean {
 
 function reveal(el: HTMLElement) {
   const delay = Number(el.dataset.revealDelay || 0);
+  // Vira `animation-delay` no CSS, não `transition-delay`: o atraso vale só para a
+  // entrada, sem atrasar o hover. Custom property porque uma `.reveal-media`
+  // dentro do elemento também precisa dele (ver `.reveal` em style.css).
   if (delay > 0) {
-    el.style.transitionDelay = `${delay}ms`;
+    el.style.setProperty('--reveal-delay', `${delay}ms`);
   }
   el.classList.add('is-in');
 }
@@ -56,7 +63,7 @@ function getObserver(): IntersectionObserver | null {
   return observer;
 }
 
-function resolveVariant(modifiers: Record<string, boolean>): Variant {
+function resolveVariant(modifiers: Partial<Record<string, boolean>>): Variant {
   return VARIANTS.find(v => modifiers[v]) ?? 'up';
 }
 

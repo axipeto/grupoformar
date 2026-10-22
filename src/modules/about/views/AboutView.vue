@@ -112,7 +112,7 @@ const { hero, sustentabilidade, logoFsc } = useBrandAssets();
         </div>
 
         <div
-          v-reveal.right
+          v-reveal.zoom="esgPoints.length * 90"
           class="flex flex-col items-center gap-3.5 rounded-xl border border-white/20 bg-white/5 p-8 text-center"
         >
           <img

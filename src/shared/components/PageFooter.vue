@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import logoCarvalho from '@theme/imgs/logo-carvalho.png';
 import logoEditora from '@theme/imgs/logo-editora.png';
+import logoFormarTech from '@theme/imgs/logo-formar-tech.svg';
 import logoGrupoFormar from '@theme/imgs/logo-grupo-formar.png';
 import logoMar from '@theme/imgs/logo-mar.png';
 import { RouterLink } from 'vue-router';
@@ -22,13 +23,15 @@ const institucional = [
 
 /**
  * Marcas do grupo — cada uma leva ao site da respectiva empresa.
- * Alturas diferentes por marca para equilibrar o peso óptico: o logotipo da
- * Carvalho é empilhado (símbolo acima do nome), então precisa de mais altura.
+ * Alturas diferentes por marca para equilibrar o peso óptico: os logotipos da
+ * Carvalho e da Formar Tech são empilhados (símbolo acima do nome), então precisam
+ * de mais altura. Marca sem endereço confirmado entra sem link.
  */
 const brands = [
   { name: labels.UNITS.editora, src: logoEditora, href: config.brands.editora, class: 'h-8 md:h-9' },
   { name: labels.UNITS.mar, src: logoMar, href: config.brands.mar, class: 'h-7 md:h-8' },
   { name: labels.UNITS.carvalho, src: logoCarvalho, href: config.brands.carvalho, class: 'h-11 md:h-12' },
+  { name: labels.PARTNERS.formarTech, src: logoFormarTech, href: config.brands.formarTech, class: 'h-12 md:h-13' },
 ];
 
 const year = new Date().getFullYear();
@@ -38,7 +41,7 @@ const year = new Date().getFullYear();
   <footer class="section-dark">
     <div class="container-max flex flex-col py-16">
       <div class="grid gap-10 pb-11 md:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
-        <div class="flex flex-col gap-4">
+        <div v-reveal class="flex flex-col gap-4">
           <img
             :src="logoGrupoFormar"
             :alt="labels.BRAND.name"
@@ -51,7 +54,7 @@ const year = new Date().getFullYear();
           </p>
         </div>
 
-        <nav aria-label="Rodapé — navegação">
+        <nav v-reveal="80" aria-label="Rodapé — navegação">
           <h4 class="mb-4 font-display text-xs font-bold uppercase tracking-[0.18em] text-white">
             Navegação
           </h4>
@@ -64,7 +67,7 @@ const year = new Date().getFullYear();
           </ul>
         </nav>
 
-        <nav aria-label="Rodapé — institucional">
+        <nav v-reveal="160" aria-label="Rodapé — institucional">
           <h4 class="mb-4 font-display text-xs font-bold uppercase tracking-[0.18em] text-white">
             Institucional
           </h4>
@@ -77,7 +80,7 @@ const year = new Date().getFullYear();
           </ul>
         </nav>
 
-        <div>
+        <div v-reveal="240">
           <h4 class="mb-4 font-display text-xs font-bold uppercase tracking-[0.18em] text-white">
             Contato
           </h4>
@@ -115,15 +118,19 @@ const year = new Date().getFullYear();
           Marcas do grupo
         </h4>
         <ul class="flex flex-wrap items-center gap-8 md:gap-11">
-          <li v-for="brand in brands" :key="brand.name">
+          <li v-for="(brand, i) in brands" :key="brand.name" v-reveal.fade="i * 80">
             <a
+              v-if="brand.href"
               :href="brand.href"
               target="_blank"
               rel="noopener"
               class="inline-flex opacity-80 transition-all hover:-translate-y-0.5 hover:opacity-100"
             >
-              <img :src="brand.src" :alt="brand.name" :class="['logo-invert w-auto', brand.class]">
+              <img :src="brand.src" :alt="brand.name" class="logo-invert w-auto" :class="[brand.class]">
             </a>
+            <span v-else class="inline-flex opacity-80">
+              <img :src="brand.src" :alt="brand.name" class="logo-invert w-auto" :class="[brand.class]">
+            </span>
           </li>
         </ul>
       </div>

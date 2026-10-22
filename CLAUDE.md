@@ -70,7 +70,7 @@ O `package.json` completo está na raiz do repositório. Dois pontos merecem exp
 │       ├── variables.ts        # cores da marca (paleta do Manual)
 │       ├── config.ts           # config da marca (contato, sites das marcas)
 │       ├── labels.ts           # textos institucionais
-│       └── imgs/               # logotipos das 4 marcas + selo FSC + fotos
+│       └── imgs/               # logotipos das marcas (grupo, 3 unidades, Formar Tech) + selo FSC + fotos
 └── src/
     ├── main.ts                 # boot: createApp → initUtils → initServices → initPlugins → mount
     ├── App.vue                 # escolhe layout por route.meta.layout + <RouterView/>
@@ -182,7 +182,7 @@ app.mount('#app');
 
 **`PageHeader.vue`** — logo + nav real (`/`, `/unidades`, `/sobre`) + `ThemeToggle` + CTA "Fale conosco" + menu hambúrguer no mobile. O filete do gradiente da marca (`<BrandRule />`) fica no topo, acima da barra.
 
-**`PageFooter.vue`** — quatro colunas (marca, navegação, institucional, contato), depois a faixa **"Marcas do grupo"** com os três logotipos linkando para os sites de cada empresa, e a linha de copyright. Os endereços vêm de `theme/grupoformar/config.ts` (`brands`).
+**`PageFooter.vue`** — quatro colunas (marca, navegação, institucional, contato), depois a faixa **"Marcas do grupo"** com os logotipos da Editora, Mar, Carvalho e **Formar Tech** linkando para os sites de cada empresa, e a linha de copyright. Os endereços vêm de `theme/grupoformar/config.ts` (`brands`); marca com endereço vazio (hoje, a Formar Tech) entra sem link. O nome da Formar Tech fica em `labels.PARTNERS` — ela não é unidade de negócio do site, só aparece no rodapé.
 
 **Animação de scroll — `v-reveal`.** Diretiva global (`shared/directives/reveal.ts`, registrada em `initServices`). Revela o elemento quando ele entra na viewport.
 
@@ -190,16 +190,23 @@ app.mount('#app');
 v-reveal              sobe 24px e aparece (padrão)
 v-reveal.fade         só aparece, sem deslocamento
 v-reveal.left/.right  desliza na horizontal
+v-reveal.zoom         cresce de 96% para 100% e aparece (cards de destaque)
 v-reveal="120"        mesma coisa, com 120ms de atraso
 ```
+
+Uma imagem com a classe `.reveal-media` dentro de um elemento com `v-reveal` "assenta": entra 6% ampliada e volta ao tamanho real junto com a revelação (usado na foto do `UnitCard` e do parque gráfico). O contêiner da imagem precisa de `overflow-hidden`.
+
+**A entrada é `animation` (keyframes), não `transition`.** Um elemento com utility de transição (`transition-colors` no `ValueCard`, por exemplo) sobrescreveria a `transition` da `.reveal` — a utility está numa camada acima de `@layer base` — e o bloco apareceria de uma vez. O atraso da diretiva vai em `animation-delay` pelo mesmo motivo: em `transition-delay` ele atrasaria também o hover do elemento.
 
 Para escalonar uma lista, use o índice do `v-for`: `v-reveal="i * 80"`. Três decisões embutidas: **um único IntersectionObserver** atende a página toda (um por elemento seria desperdício); cada elemento é **desobservado ao revelar**, então a animação roda uma vez e não a cada passagem de scroll; e o **estado inicial mora no CSS** (`.reveal`, em `@layer base`), não inline — se o JS aplicasse o deslocamento depois da primeira pintura, haveria flash de conteúdo na posição final.
 
 Em `prefers-reduced-motion`, ou sem suporte a `IntersectionObserver`, o elemento recebe `is-in` na montagem: **o conteúdo nunca fica invisível esperando uma animação que não vem.** Esse é o erro clássico desse padrão — não o reintroduza mexendo no CSS da `.reveal`.
 
+**Contagem dos indicadores — `v-count-up`.** Diretiva global (`shared/directives/countUp.ts`) usada no `StatCard`: quando o número entra na viewport, conta de zero até o valor do texto, mantendo prefixo/sufixo ("+2.000" conta com separador de milhar pt-BR). Texto sem número ("FSC") não anima. O HTML sempre carrega o valor final — crawlers, leitores de tela e `prefers-reduced-motion` veem o número real, sem contagem.
+
 Não aplique em conteúdo acima da dobra (o hero): animar o que já está na tela no carregamento só atrasa a leitura. A diretiva precisa de **componente de raiz única** para funcionar — num fragment ela não tem onde se aplicar.
 
-**Logotipos em fundo escuro.** Os logotipos das quatro marcas são pretos com símbolo em gradiente — ilegíveis sobre fundo escuro. Duas classes resolvem isso (definidas em `style.css`):
+**Logotipos em fundo escuro.** Os logotipos das marcas são pretos com símbolo em gradiente ou violeta — ilegíveis sobre fundo escuro. Duas classes resolvem isso (definidas em `style.css`):
 
 - `.logo-adaptive` — inverte para branco sólido **só no tema escuro**. Use no header e em cards de superfície.
 - `.logo-invert` — inverte sempre. Use no rodapé e em qualquer lugar que já seja escuro nos dois temas.
@@ -349,7 +356,7 @@ yarn lint && yarn test && yarn build
 
 - `test` = `vitest run` (não-interativo). **Testes são obrigatórios e todos devem passar** para commitar.
 - Cobertura mínima esperada: validações Zod, `useColorMode`, `sanitizeHtml`, `cn()`, `themeVariable` e componentes de UI com variantes.
-- Suítes já existentes: `src/modules/contact/__tests__/contactSchema.spec.ts`, `src/shared/__tests__/{useColorMode,sanitizeHtml,Button,twmerge,themeVariable}.spec.ts`.
+- Suítes já existentes: `src/modules/contact/__tests__/contactSchema.spec.ts`, `src/shared/__tests__/{useColorMode,sanitizeHtml,Button,twmerge,themeVariable,countUp}.spec.ts`.
 - `vitest.config.ts` estende `vite.config.ts` (environment `jsdom`).
 
 ---
@@ -387,12 +394,12 @@ O layout e a estrutura estão fechados; **estes dados foram preenchidos com valo
 
 - **`theme/grupoformar/config.ts`** — e-mail, telefone e WhatsApp; e os três endereços em `brands`, que alimentam os links da faixa "Marcas do grupo" no rodapé.
 - **`src/domain/theme/content.ts`** — os 4 indicadores ("26 anos", "3 unidades", "+2.000 títulos", "FSC"), as specs do parque gráfico (formato de folha, número de cores, tipos de acabamento) e os marcos da linha do tempo (2000, 2015).
-- **Fotos das unidades** — a Editora Formar já usa imagem própria (`editora-banner.webp`, trazida do site da Editora). Mar e Carvalho ainda usam fotos genéricas de operação gráfica; a Carvalho, em particular, está ilustrada com maquinário de impressão, que não representa logística.
+- **Fotos das unidades** — a Editora Formar já usa imagem própria (`editora-banner.webp` — o banner do hero do site da Editora, `sala-de-aula-criancas.webp` no repositório `siteeditoraformar`). Mar e Carvalho ainda usam fotos genéricas de operação gráfica; a Carvalho, em particular, está ilustrada com maquinário de impressão, que não representa logística.
 - **`impressao.jpg`** ficou órfão em `theme/grupoformar/imgs/` quando o card da Editora passou a usar o banner. Não é importado por ninguém (logo, não entra no build) — reaproveite ou apague.
 
 ### Decisão de escopo registrada
 
-Uma proposta de layout anterior descrevia a terceira unidade como **"Formar.Tech" (tecnologia e distribuição)**. Não existe logotipo nem qualquer material dessa marca no acervo da marca; o que existe é o da **Carvalho Distribuições**. O site foi construído com a Carvalho como terceira unidade. Se a Formar.Tech existir de fato, ela precisa de logotipo próprio e entra como quarta unidade em `content.ts` — sem trocar a Carvalho.
+Uma proposta de layout anterior descrevia a terceira unidade como **"Formar.Tech" (tecnologia e distribuição)**. O site foi construído com a **Carvalho Distribuições** como terceira unidade. O logotipo da Formar Tech (`logo-formar-tech.svg`, trazido do site da Editora) hoje aparece **só na faixa "Marcas do grupo" do rodapé**, sem link. Se ela tiver de virar unidade de negócio, entra como quarta unidade em `content.ts` — sem trocar a Carvalho.
 
 ---
 
@@ -405,6 +412,6 @@ Uma proposta de layout anterior descrevia a terceira unidade como **"Formar.Tech
 5. ✅ **Testes** — 5 suítes cobrindo schema, tema, sanitização, `cn()` e `Button`.
 6. ⬜ **Refino:** substituir os dados pendentes, plugar o endpoint do formulário, avaliar `vite-ssg`, revisar contraste em ambos os temas com ferramenta de acessibilidade, gerar `yarn.lock`.
 
-> **Verificação ainda não executada.** O código deste repositório **não foi rodado** — a máquina onde ele foi gerado não tinha Node instalado, então `yarn install`, `yarn lint`, `yarn test` e `yarn build` nunca executaram. O que foi verificado estaticamente: todos os `import` resolvem para arquivos existentes ou pacotes declarados no `package.json` (63 arquivos), nenhum componente é usado sem import, todos os assets de `@theme/imgs/` existem, e nenhuma regra de desacoplamento da seção 4 é violada. **Rode os três comandos antes do primeiro commit** — o pre-commit vai exigir isso de qualquer forma. Se `yarn lint` reclamar de regra desconhecida em `@typescript-eslint/naming-convention`, o `@antfu/eslint-config` da sua versão renomeou o namespace: troque por `ts/naming-convention`.
+> **Verificação.** `yarn lint`, `yarn test` e `yarn build` (com type-check) passam desde a PR que adicionou `v-count-up` — os erros de lint e o erro de tipo em `reveal.ts` que existiam antes foram corrigidos nela. O `yarn.lock` **ainda não está commitado**: ele precisa ser gerado e revisado pelo time (o `Dockerfile` usa `--frozen-lockfile`). Em Node 22 anterior a 22.22.2, `yarn install` recusa uma dependência transitiva (`nopt`) pela checagem de engine — atualize o Node ou use `--ignore-engines`. Se `yarn lint` reclamar de regra desconhecida em `@typescript-eslint/naming-convention`, o `@antfu/eslint-config` da sua versão renomeou o namespace: troque por `ts/naming-convention`.
 
 > Ao pedir cada etapa: "siga as instruções do projeto: estrutura e convenções da seção correspondente, regras de desacoplamento (seção 4), tokens/tema dark-light (seção 7), formulários com Zod (seção 8), SEO (seção 9) e Clarity (seção 10)."

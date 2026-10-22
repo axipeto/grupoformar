@@ -80,7 +80,7 @@ const { hero, maquinario, unitAssets } = useBrandAssets();
           <img
             :src="maquinario"
             alt="Conjunto de impressoras offset instaladas no parque gráfico"
-            class="h-full w-full object-cover"
+            class="reveal-media h-full w-full object-cover"
             loading="lazy"
           >
         </figure>

@@ -14,6 +14,8 @@ export const config = {
     editora: 'https://www.grupoformar.com.br/editora',
     mar: 'https://www.grupoformar.com.br/mar',
     carvalho: 'https://www.grupoformar.com.br/carvalho',
+    /** Vazio enquanto não houver site confirmado: o rodapé mostra o logo sem link. */
+    formarTech: '',
   },
   social: {
     instagram: '',

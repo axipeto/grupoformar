@@ -46,7 +46,8 @@ export function sanitizeHtml(raw: string): string {
         if (tag === 'a' && name === 'href') {
           const lower = value.toLowerCase();
           const safe = /^(?:https?:\/\/|mailto:|tel:|\/|#)/.test(lower) && !lower.startsWith('javascript:');
-          if (!safe) node.removeAttribute(attr.name);
+          if (!safe)
+            node.removeAttribute(attr.name);
           continue;
         }
         if (tag === 'a' && name === 'target') {
@@ -61,7 +62,8 @@ export function sanitizeHtml(raw: string): string {
           }
           continue;
         }
-        if (tag !== 'a') node.removeAttribute(attr.name);
+        if (tag !== 'a')
+          node.removeAttribute(attr.name);
       }
       node = walker.nextNode() as Element | null;
     }

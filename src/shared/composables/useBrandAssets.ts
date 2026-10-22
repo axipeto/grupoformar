@@ -1,13 +1,13 @@
+import type { Unit } from '@/domain/theme/content';
+import imgEditoraBanner from '@theme/imgs/editora-banner.webp';
+import imgGrafica from '@theme/imgs/grafica.jpg';
+import imgHero from '@theme/imgs/hero.jpg';
 import logoCarvalho from '@theme/imgs/logo-carvalho.png';
 import logoEditora from '@theme/imgs/logo-editora.png';
 import logoFsc from '@theme/imgs/logo-fsc.png';
 import logoMar from '@theme/imgs/logo-mar.png';
-import imgEditoraBanner from '@theme/imgs/editora-banner.webp';
-import imgGrafica from '@theme/imgs/grafica.jpg';
-import imgHero from '@theme/imgs/hero.jpg';
 import imgMaquinario from '@theme/imgs/maquinario.jpg';
 import imgSustentabilidade from '@theme/imgs/sustentabilidade.jpg';
-import type { Unit } from '@/domain/theme/content';
 
 /**
  * Resolve os assets do tema para o conteúdo institucional.
