@@ -9,8 +9,9 @@ import StatCard from '@/shared/components/StatCard.vue';
       <!-- gap-px sobre o fundo da borda desenha as divisórias sem 1px duplicado -->
       <div class="grid grid-cols-2 gap-px border-x border-border bg-border lg:grid-cols-4">
         <StatCard
-          v-for="stat in stats"
+          v-for="(stat, i) in stats"
           :key="stat.label"
+          v-reveal.fade="i * 70"
           :value="stat.value"
           :label="stat.label"
         />

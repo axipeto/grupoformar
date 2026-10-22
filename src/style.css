@@ -131,11 +131,40 @@
   .logo-invert { filter: brightness(0) invert(1); }
   [data-theme='dark'] .logo-adaptive { filter: brightness(0) invert(1); }
 
+  /*
+   * Animação de scroll (directive `v-reveal`). O estado inicial fica aqui, no
+   * CSS, e não inline no elemento: assim o bloco entra já no estado certo, sem
+   * o flash de conteúdo posicionado que apareceria se o JS aplicasse o
+   * deslocamento depois da primeira pintura.
+   */
+  .reveal {
+    opacity: 0;
+    transition:
+      opacity 0.7s cubic-bezier(0.22, 0.61, 0.36, 1),
+      transform 0.7s cubic-bezier(0.22, 0.61, 0.36, 1);
+  }
+  .reveal--up { transform: translateY(24px); }
+  .reveal--left { transform: translateX(-28px); }
+  .reveal--right { transform: translateX(28px); }
+  .reveal--fade { transform: none; }
+
+  .reveal.is-in {
+    opacity: 1;
+    transform: none;
+  }
+
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {
       animation-duration: 0.001ms !important;
       transition-duration: 0.001ms !important;
       scroll-behavior: auto !important;
+    }
+
+    /* o conteúdo precisa estar visível mesmo sem a transição que o revelaria */
+    .reveal {
+      opacity: 1 !important;
+      transform: none !important;
+      transition-delay: 0ms !important;
     }
   }
 }

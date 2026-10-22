@@ -184,6 +184,21 @@ app.mount('#app');
 
 **`PageFooter.vue`** — quatro colunas (marca, navegação, institucional, contato), depois a faixa **"Marcas do grupo"** com os três logotipos linkando para os sites de cada empresa, e a linha de copyright. Os endereços vêm de `theme/grupoformar/config.ts` (`brands`).
 
+**Animação de scroll — `v-reveal`.** Diretiva global (`shared/directives/reveal.ts`, registrada em `initServices`). Revela o elemento quando ele entra na viewport.
+
+```
+v-reveal              sobe 24px e aparece (padrão)
+v-reveal.fade         só aparece, sem deslocamento
+v-reveal.left/.right  desliza na horizontal
+v-reveal="120"        mesma coisa, com 120ms de atraso
+```
+
+Para escalonar uma lista, use o índice do `v-for`: `v-reveal="i * 80"`. Três decisões embutidas: **um único IntersectionObserver** atende a página toda (um por elemento seria desperdício); cada elemento é **desobservado ao revelar**, então a animação roda uma vez e não a cada passagem de scroll; e o **estado inicial mora no CSS** (`.reveal`, em `@layer base`), não inline — se o JS aplicasse o deslocamento depois da primeira pintura, haveria flash de conteúdo na posição final.
+
+Em `prefers-reduced-motion`, ou sem suporte a `IntersectionObserver`, o elemento recebe `is-in` na montagem: **o conteúdo nunca fica invisível esperando uma animação que não vem.** Esse é o erro clássico desse padrão — não o reintroduza mexendo no CSS da `.reveal`.
+
+Não aplique em conteúdo acima da dobra (o hero): animar o que já está na tela no carregamento só atrasa a leitura. A diretiva precisa de **componente de raiz única** para funcionar — num fragment ela não tem onde se aplicar.
+
 **Logotipos em fundo escuro.** Os logotipos das quatro marcas são pretos com símbolo em gradiente — ilegíveis sobre fundo escuro. Duas classes resolvem isso (definidas em `style.css`):
 
 - `.logo-adaptive` — inverte para branco sólido **só no tema escuro**. Use no header e em cards de superfície.
@@ -372,7 +387,8 @@ O layout e a estrutura estão fechados; **estes dados foram preenchidos com valo
 
 - **`theme/grupoformar/config.ts`** — e-mail, telefone e WhatsApp; e os três endereços em `brands`, que alimentam os links da faixa "Marcas do grupo" no rodapé.
 - **`src/domain/theme/content.ts`** — os 4 indicadores ("26 anos", "3 unidades", "+2.000 títulos", "FSC"), as specs do parque gráfico (formato de folha, número de cores, tipos de acabamento) e os marcos da linha do tempo (2000, 2015).
-- **Fotos das unidades** — hoje as três unidades usam fotos genéricas de operação gráfica. A Carvalho Distribuições, em particular, está ilustrada com uma foto de maquinário de impressão, que não representa logística.
+- **Fotos das unidades** — a Editora Formar já usa imagem própria (`editora-banner.webp`, trazida do site da Editora). Mar e Carvalho ainda usam fotos genéricas de operação gráfica; a Carvalho, em particular, está ilustrada com maquinário de impressão, que não representa logística.
+- **`impressao.jpg`** ficou órfão em `theme/grupoformar/imgs/` quando o card da Editora passou a usar o banner. Não é importado por ninguém (logo, não entra no build) — reaproveite ou apague.
 
 ### Decisão de escopo registrada
 

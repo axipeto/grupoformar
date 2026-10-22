@@ -23,6 +23,7 @@ const { hero, sustentabilidade, logoFsc } = useBrandAssets();
 
     <Section>
       <SectionHeading
+        v-reveal
         eyebrow="Evolução contínua"
         title="Uma trajetória construída etapa por etapa."
         description="Cada fase do grupo respondeu a uma necessidade concreta dos nossos clientes — e trouxe mais uma parte do processo para dentro de casa."
@@ -34,7 +35,7 @@ const { hero, sustentabilidade, logoFsc } = useBrandAssets();
         O filete da marca à esquerda amarra os marcos visualmente.
       -->
       <ol class="relative flex flex-col gap-10 border-l-2 border-border pl-8 md:pl-11">
-        <li v-for="item in timeline" :key="item.year" class="relative">
+        <li v-for="(item, i) in timeline" :key="item.year" v-reveal.left="i * 110" class="relative">
           <span
             aria-hidden="true"
             class="absolute -left-[41px] top-1.5 h-3 w-3 rounded-full bg-blue ring-4 ring-bg md:-left-[53px]"
@@ -56,6 +57,7 @@ const { hero, sustentabilidade, logoFsc } = useBrandAssets();
 
     <Section id="valores" tone="alt">
       <SectionHeading
+        v-reveal
         eyebrow="Nossos valores"
         title="O que sustenta cada entrega."
         description="Excelência não é meta isolada — é consequência de princípios aplicados todos os dias, em todas as operações do grupo."
@@ -63,8 +65,9 @@ const { hero, sustentabilidade, logoFsc } = useBrandAssets();
       />
       <div class="grid gap-px overflow-hidden rounded-xl border border-border bg-border sm:grid-cols-2 lg:grid-cols-3">
         <ValueCard
-          v-for="value in values"
+          v-for="(value, i) in values"
           :key="value.index"
+          v-reveal.fade="i * 60"
           :index="value.index"
           :title="value.title"
           :description="value.description"
@@ -87,6 +90,7 @@ const { hero, sustentabilidade, logoFsc } = useBrandAssets();
       <div class="container-max grid items-center gap-10 lg:grid-cols-[1.25fr_0.75fr] lg:gap-16">
         <div class="flex flex-col gap-5">
           <SectionHeading
+            v-reveal
             eyebrow="Compromisso ambiental"
             title="Cada página impressa é uma decisão sobre o futuro."
             description="Nossas práticas ambientais atravessam toda a cadeia: origem do papel, consumo de energia da planta e destino dos resíduos de produção."
@@ -94,8 +98,9 @@ const { hero, sustentabilidade, logoFsc } = useBrandAssets();
           />
           <ul class="mt-2 flex flex-col">
             <li
-              v-for="point in esgPoints"
+              v-for="(point, i) in esgPoints"
               :key="point.title"
+              v-reveal.left="i * 90"
               class="flex flex-col gap-1 border-t border-white/15 py-4"
             >
               <strong class="font-display text-[15px] font-semibold text-white">
@@ -106,7 +111,10 @@ const { hero, sustentabilidade, logoFsc } = useBrandAssets();
           </ul>
         </div>
 
-        <div class="flex flex-col items-center gap-3.5 rounded-xl border border-white/20 bg-white/5 p-8 text-center">
+        <div
+          v-reveal.right
+          class="flex flex-col items-center gap-3.5 rounded-xl border border-white/20 bg-white/5 p-8 text-center"
+        >
           <img
             :src="logoFsc"
             alt="Selo FSC — Forests For All Forever"
